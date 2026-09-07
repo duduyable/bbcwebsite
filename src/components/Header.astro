@@ -1,0 +1,30 @@
+<header class="header">
+  <div class="container">
+    <div class="logo">
+      <img src="/images/bluelogotransparent.png" alt="Church Logo" />
+      <span>Bible Baptist Church - Paris</span>
+    </div>
+
+    <nav class="nav" id="nav">
+      <a href="/">Home</a>
+      <a href="/announcements">Announcements</a>
+      <a href="/about">About Us</a>
+      <a href="/contact">Contact</a>
+    </nav>
+
+    <div class="hamburger" id="hamburger">
+      ☰
+    </div>
+  </div>
+</header>
+
+<script>
+  const hamburger = document.getElementById("hamburger");
+  const nav = document.getElementById("nav");
+
+  if (hamburger && nav) {
+    hamburger.addEventListener("click", () => {
+      nav.classList.toggle("active");
+    });
+  }
+</script>
