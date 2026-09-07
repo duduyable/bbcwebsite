@@ -4,31 +4,27 @@
   "description": "Bible Baptist Church - Paris",
   "main": "electron/main.cjs",
   "type": "module",
-
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
-    "electron": "electron .",
-    "electron:build": "npm run build && electron-builder"
+    "preview": "astro preview"
   },
-
   "build": {
     "appId": "com.biblebaptistparis.website",
     "productName": "Bible Baptist Church - Paris",
-
     "files": [
       "dist/**/*",
       "electron/**/*",
       "package.json"
     ],
-
     "mac": {
       "target": "dmg"
     },
-
     "win": {
       "target": "nsis"
     }
+  },
+  "dependencies": {
+    "astro": "^7.3.1"
   }
 }
