@@ -1,78 +1,165 @@
 ---
+// Update 10-26-26: Home page redesigned with a modern look: large welcome banner,
+// service cards with icons, a "Plan your visit" section with an embedded map,
+// a Road to Salvation call-to-action and a "Stay connected" section.
+// All text is available in English and French (see the EN/FR toggle in the header).
 import BaseLayout from "../layouts/BaseLayout.astro";
+import T from "../components/T.astro";
+import Icon from "../components/Icon.astro";
+import { church, services } from "../data/church";
 ---
 
-<BaseLayout>
-  <section class="home-page">
-    <div class="home-header">
-      <h1>Welcome to Bible Baptist Church - Paris</h1>
-      <p>We would love to have you worship with us.</p>
-    </div>
+<BaseLayout
+  title="Bible Baptist Church - Paris Mission"
+  description="Welcome to Bible Baptist Church - Paris. Sunday School at 1:00 PM, Sunday Service at 2:00 PM, 13 Rue des Fontaines du Temple, 75003 Paris."
+>
+  <div class="home">
+    <!-- Update 10-26-26: welcome banner -->
+    <section class="home-hero">
+      <div class="home-hero-inner">
+        <img src="/images/whitelogotransparent.png" alt="" class="home-hero-logo" />
+        <p class="eyebrow"><T en="Welcome to" fr="Bienvenue à" /></p>
+        <h1>Bible Baptist Church<span class="home-hero-city">Paris</span></h1>
+        <p class="home-hero-lead">
+          <T
+            en="A church in the heart of Paris where you can hear God’s Word, find hope in Jesus Christ and worship with us. We would love to have you."
+            fr="Une église au cœur de Paris où vous pouvez entendre la Parole de Dieu, trouver l’espérance en Jésus-Christ et adorer avec nous. Vous êtes les bienvenus."
+          />
+        </p>
+        <div class="home-hero-actions">
+          <a href="#visit" class="btn btn-gold"><T en="Plan your visit" fr="Préparer votre visite" /></a>
+          <a href="/" class="btn btn-ghost"><T en="Road to Salvation" fr="Chemin du salut" /></a>
+        </div>
+      </div>
 
-    <div class="home-content">
-      <section class="info-section">
-        <h2>Our Services</h2>
+      <div class="home-hero-strip">
+        <span><Icon name="clock" size={18} /> <T en="Sundays · 1:00 PM & 2:00 PM" fr="Dimanche · 13h00 et 14h00" /></span>
+        <span><Icon name="pin" size={18} /> {church.street}, {church.city}</span>
+      </div>
+    </section>
 
-        <div class="service">
-          <h3>Sunday School</h3>
-          <p>1:00 PM</p>
+    <!-- Update 10-26-26: service times as cards -->
+    <section class="home-section">
+      <div class="section-head">
+        <p class="eyebrow eyebrow-dark"><T en="Join us" fr="Rejoignez-nous" /></p>
+        <h2><T en="Our Services" fr="Nos cultes" /></h2>
+      </div>
+
+      <div class="service-grid">
+        {
+          services.map((s) => (
+            <article class="service-card">
+              <div class="service-icon">
+                <Icon name={s.icon} size={28} />
+              </div>
+              <h3><T en={s.en} fr={s.fr} /></h3>
+              <p class="service-time"><T en={s.timeEn} fr={s.timeFr} /></p>
+              <p class="service-note"><T en={s.noteEn} fr={s.noteFr} /></p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Update 10-26-26: plan your visit with embedded map -->
+    <section class="home-section home-visit" id="visit">
+      <div class="visit-grid">
+        <div class="visit-info">
+          <p class="eyebrow eyebrow-dark"><T en="Plan your visit" fr="Préparer votre visite" /></p>
+          <h2><T en="We’d love to meet you" fr="Nous serions heureux de vous rencontrer" /></h2>
+          <p>
+            <T
+              en="Whether you have been to church all your life or this is your first time, you are welcome here."
+              fr="Que vous alliez à l’église depuis toujours ou que ce soit votre première fois, vous êtes le bienvenu."
+            />
+          </p>
+
+          <ul class="visit-list">
+            <li>
+              <span class="visit-list-icon"><Icon name="pin" size={20} /></span>
+              <div>
+                <strong><T en="Address" fr="Adresse" /></strong>
+                <span>{church.street}, {church.city}</span>
+              </div>
+            </li>
+            <li>
+              <span class="visit-list-icon"><Icon name="book" size={20} /></span>
+              <div>
+                <strong><T en="Bible preaching" fr="Prédication biblique" /></strong>
+                <span><T en="Every service is centered on God’s Word." fr="Chaque culte est centré sur la Parole de Dieu." /></span>
+              </div>
+            </li>
+            <li>
+              <span class="visit-list-icon"><Icon name="heart" size={20} /></span>
+              <div>
+                <strong><T en="Come as you are" fr="Venez tel que vous êtes" /></strong>
+                <span><T en="No need to dress up or know anyone. Just come." fr="Pas besoin de tenue particulière ni de connaître quelqu’un. Venez simplement." /></span>
+              </div>
+            </li>
+          </ul>
+
+          <a href={church.mapUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            <T en="Open in Google Maps" fr="Ouvrir dans Google Maps" /> <Icon name="arrow" size={18} />
+          </a>
         </div>
 
-        <div class="service">
-          <h3>Sunday Service</h3>
-          <p>2:00 PM</p>
+        <div class="visit-map">
+          <iframe
+            src={church.mapEmbedUrl}
+            title="Map: Bible Baptist Church - Paris"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen></iframe>
         </div>
+      </div>
+    </section>
 
-        <div class="service">
-          <h3>Friday Bible Study</h3>
-          <p>9:00 PM (Online)</p>
-        </div>
-      </section>
+    <!-- Update 10-26-26: call-to-action to the Road to Salvation pages -->
+    <section class="home-cta">
+      <div class="home-cta-inner">
+        <h2><T en="Do you know that you are saved?" fr="Savez-vous que vous êtes sauvé ?" /></h2>
+        <p>
+          <T
+            en="God’s love reaches you, no matter your past. Discover what the Bible says about real salvation."
+            fr="L’amour de Dieu vous atteint, quel que soit votre passé. Découvrez ce que la Bible dit du vrai salut."
+          />
+        </p>
+        <a href="/" class="btn btn-gold"><T en="Start reading" fr="Commencer la lecture" /> <Icon name="arrow" size={18} /></a>
+      </div>
+    </section>
 
-      <section class="info-section">
-        <h2>Our Location</h2>
+    <!-- Update 10-26-26: stay connected (replaces the old email/Facebook icons) -->
+    <section class="home-section">
+      <div class="section-head">
+        <p class="eyebrow eyebrow-dark"><T en="Stay connected" fr="Restons en contact" /></p>
+        <h2><T en="Follow along during the week" fr="Suivez-nous pendant la semaine" /></h2>
+      </div>
 
-        <p>Bible Baptist Church - Paris</p>
-
-        <p>13 Rue des Fontaines du Temple, 75003 Paris</p>
-
-        <a
-          href="https://l.facebook.com/l.php?u=https%3A%2F%2Fmaps.app.goo.gl%2Fd7on3jS7jQLSFYaH6%3Ffbclid%3DIwZXh0bgNhZW0CMTAAcGRvZgVicmlkETFXaWJacTRhOHdtWGFDak16c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHgIwLKaOB6TKx-FbkAwQWjkl8twqBya1sySIhI-LHlpdntqQoqYG1jWeT-a1_aem_nJVDh3bsGVva24B1pg9XfQ&h=AUBM9RcpNkHyxd7yzKStMJMnEe9e6c8D7yA9VbN-wTXSR5pg5HbZEzxB2dQOv3-JubT1zMyWSEdu7EO2y_9vdeED2c4PU2-lAEwGhLkTIcNfj5lf8qA1E8da_MEtUK6gfkBM4AboOtz3fkHAF5MrC7dV"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="map-btn"
-        >
-          View on Google Maps
+      <div class="connect-grid">
+        <a href={church.facebookUrl} target="_blank" rel="noopener noreferrer" class="connect-card">
+          <span class="connect-icon"><Icon name="facebook" size={26} /></span>
+          <span>
+            <strong>Facebook</strong>
+            <T en="News, photos and live updates" fr="Actualités, photos et nouvelles" />
+          </span>
         </a>
 
-        <div class="social-icons">
-          <!-- Email -->
-          <a
-            href="https://mail.google.com/mail/u/0/#inbox?compose=GTvVlcSHxjWGjBBnqjWbRNdvSSzmBCkVdHnGFpHBMQCWprGTbFqCQFrPDhMjZnVLVqZvcwhFLJRhN"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LBBC Paris"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M3 5h18v14H3V5zm2 2v.5l7 5 7-5V7l-7 5-7-5z"></path>
-            </svg>
-          </a>
+        <a href="/announcements" class="connect-card">
+          <span class="connect-icon"><Icon name="calendar" size={26} /></span>
+          <span>
+            <strong><T en="Announcements" fr="Annonces" /></strong>
+            <T en="Upcoming events and news" fr="Événements et nouvelles à venir" />
+          </span>
+        </a>
 
-          <!-- Facebook -->
-          <a
-            href="https://www.facebook.com/profile.php?id=61553990219196"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Facebook"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M14 8h3V4h-3c-3.3 0-5 1.9-5 5v2H6v4h3v5h4v-5h3.5l.5-4H13V9c0-.7.3-1 1-1z"
-              ></path>
-            </svg>
-          </a>
-        </div>
-      </section>
-    </div>
-  </section>
+        <a href={church.email ? `mailto:${church.email}` : "/contact"} class="connect-card">
+          <span class="connect-icon"><Icon name="mail" size={26} /></span>
+          <span>
+            <strong><T en="Contact us" fr="Nous contacter" /></strong>
+            <T en="Questions or prayer requests" fr="Questions ou demandes de prière" />
+          </span>
+        </a>
+      </div>
+    </section>
+  </div>
 </BaseLayout>

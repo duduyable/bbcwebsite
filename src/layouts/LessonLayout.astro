@@ -1,0 +1,74 @@
+---
+// Update 10-26-26: Shared layout for the Road to Salvation pages (A, B, C, D, Prayer).
+// The Previous/Next buttons and the 1-5 page numbers used to be copied into every page;
+// now they are built here from the `steps` list.
+import BaseLayout from "./BaseLayout.astro";
+
+const steps = [
+  { href: "/contentA", title: "All have sinned" },
+  { href: "/contentB", title: "Believe" },
+  { href: "/contentC", title: "Confess" },
+  { href: "/contentD", title: "Delay not" },
+  { href: "/contentPrayer", title: "Prayer" },
+];
+
+const { step, heading, description, textClass = "" } = Astro.props;
+const index = step - 1;
+const prev = steps[index - 1];
+const next = steps[index + 1];
+---
+
+<BaseLayout title={`${steps[index].title} - Road to Salvation`} description={description}>
+  <section class="readmore-section">
+    <div class="readmore-header">
+      <p class="readmore-step">Road to Salvation · Step {step} of {steps.length}</p>
+      <h1>{heading}</h1>
+    </div>
+
+    <div class="readmore-body">
+      <!-- Update 10-26-26: note for French visitors, these pages are in English for now -->
+      <p class="t-fr lesson-lang-note" lang="fr">
+        Cette page est pour l’instant disponible uniquement en anglais.
+      </p>
+
+      <div class={`text-container ${textClass}`.trim()}>
+        <slot />
+      </div>
+    </div>
+
+    <slot name="after" />
+
+    <div class="page-controls">
+      {
+        prev ? (
+          <a href={prev.href} class="nav-btn"> ← Previous </a>
+        ) : (
+          <span class="nav-btn disabled" aria-disabled="true"> ← Previous </span>
+        )
+      }
+
+      {
+        next ? (
+          <a href={next.href} class="nav-btn"> Next → </a>
+        ) : (
+          <span class="nav-btn disabled" aria-disabled="true"> Next → </span>
+        )
+      }
+    </div>
+
+    <div class="page-nav">
+      {
+        steps.map((s, i) => (
+          <a
+            href={s.href}
+            class={i === index ? "page-btn active" : "page-btn"}
+            aria-current={i === index ? "page" : undefined}
+            aria-label={`Step ${i + 1}: ${s.title}`}
+          >
+            {i + 1}
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

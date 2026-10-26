@@ -1,43 +1,36 @@
-# Astro Starter Kit: Minimal
+# Bible Baptist Church - Paris Mission website
 
-```sh
-npm create astro@latest -- --template minimal
-```
+<!-- Update 10-26-26: replaced the Astro starter README with notes for this website -->
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Built with [Astro](https://docs.astro.build).
 
-## 🚀 Project Structure
+## Run it
 
-Inside of your Astro project, you'll see the following folders and files:
+| Command           | What it does                                    |
+| :---------------- | :---------------------------------------------- |
+| `npm install`     | Install dependencies (first time only)          |
+| `npm run dev`     | Start the site at `http://localhost:4321`       |
+| `npm run build`   | Build the finished site into `dist/`            |
+| `npm run preview` | Preview the built site before publishing        |
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## Pages
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+| Address          | File                           | Content                                   |
+| :--------------- | :----------------------------- | :---------------------------------------- |
+| `/`              | `src/pages/index.astro`        | Road to Salvation introduction            |
+| `/contentA`–`D`  | `src/pages/contentA–D.astro`   | Salvation steps A, B, C, D                |
+| `/contentPrayer` | `src/pages/contentPrayer.astro`| Salvation prayer and next steps           |
+| `/home`          | `src/pages/home.astro`         | Welcome, services, plan your visit, map   |
+| `/about`         | `src/pages/about.astro`        | Who we are and what we believe            |
+| `/announcements` | `src/pages/announcements.astro`| Church news                               |
+| `/contact`       | `src/pages/contact.astro`      | Address, times, map, Facebook             |
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Common updates
 
-Any static assets, like images, can be placed in the `public/` directory.
+- **Address, service times, Facebook, email:** edit `src/data/church.ts`. Every page and the footer update automatically.
+- **Post an announcement:** add an entry to `src/data/announcements.ts` (an example is in the file).
+- **French / English text:** use `<T en="..." fr="..." />` from `src/components/T.astro`. The EN/FR button in the header switches languages. The salvation pages (A–D, Prayer) are English only for now.
+- **Salvation steps:** the Previous/Next buttons and page numbers are built in `src/layouts/LessonLayout.astro`.
+- **Styles:** `public/css/style.css`. Colors are defined once at the top of the "SHARED DESIGN STYLES" section.
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Changes made on 10-26-26 are marked with `Update 10-26-26` comments in the code.

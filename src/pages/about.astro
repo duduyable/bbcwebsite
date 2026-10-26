@@ -1,0 +1,129 @@
+---
+// Update 10-26-26: New "About Us" page with the church's Statement of Faith.
+// The Statement of Faith text is in src/data/statementOfFaith.ts.
+// To add more (church history, pastor, ministries), copy one of the <section> blocks.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import T from "../components/T.astro";
+import Icon from "../components/Icon.astro";
+import { church, services } from "../data/church";
+// Update 10-26-26: full Statement of Faith (replaces the short belief summary)
+import { faithIntro, faithArticles, commitment } from "../data/statementOfFaith";
+
+// "We Believe in the Holy Spirit" -> "Holy Spirit" (used for the quick links)
+const shortTitle = (title) => {
+  const t = title.replace(/^We Believe (in )?(the )?/, "");
+  return t.charAt(0).toUpperCase() + t.slice(1);
+};
+---
+
+<BaseLayout
+  title="About Us"
+  description="Learn about Bible Baptist Church - Paris Mission, what we believe and when we meet."
+>
+  <section class="page-hero">
+    <p class="eyebrow"><T en="About us" fr="Qui sommes-nous" /></p>
+    <h1>{church.fullName}</h1>
+    <p>
+      <T
+        en="A Bible-believing, independent Baptist church in the heart of Paris."
+        fr="Une église baptiste indépendante, attachée à la Bible, au cœur de Paris."
+      />
+    </p>
+  </section>
+
+  <div class="page-body">
+    <section class="content-card">
+      <h2><T en="Who we are" fr="Qui nous sommes" /></h2>
+      <p>
+        <T
+          en="We are a church family that loves God and His Word. Our desire is that everyone in Paris and beyond would hear the good news that Jesus Christ saves, and grow in their walk with Him."
+          fr="Nous sommes une famille d’église qui aime Dieu et sa Parole. Notre désir est que chacun, à Paris et ailleurs, entende la bonne nouvelle que Jésus-Christ sauve, et grandisse dans sa marche avec lui."
+        />
+      </p>
+      <p>
+        <T
+          en="Everyone is welcome to visit our services, ask questions and study the Bible with us."
+          fr="Chacun est le bienvenu pour assister à nos cultes, poser ses questions et étudier la Bible avec nous."
+        />
+      </p>
+    </section>
+
+    <!-- Update 10-26-26: Statement of Faith -->
+    <section id="statement-of-faith">
+      <div class="section-head">
+        <p class="eyebrow eyebrow-dark"><T en="Our statement of faith" fr="Notre confession de foi" /></p>
+        <h2><T en="What we believe" fr="Ce que nous croyons" /></h2>
+      </div>
+
+      <p class="t-fr lesson-lang-note faith-lang-note" lang="fr">
+        Notre confession de foi est pour l’instant disponible uniquement en anglais.
+      </p>
+
+      <div class="content-card faith-intro">
+        {faithIntro.map((p) => <p>{p}</p>)}
+      </div>
+
+      <nav class="faith-index" aria-label="Statement of faith articles">
+        {
+          faithArticles.map((a, i) => (
+            <a href={`#faith-${i + 1}`}>
+              <span>{i + 1}</span>
+              {shortTitle(a.title)}
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="faith-list">
+        {
+          faithArticles.map((a, i) => (
+            <article class="faith-article" id={`faith-${i + 1}`}>
+              <span class="faith-number">{i + 1}</span>
+              <div>
+                <h3>{a.title}</h3>
+                {a.body.map((p) => <p>{p}</p>)}
+                <p class="faith-refs">{a.refs}</p>
+                {a.after?.map((p) => <p class="faith-after">{p}</p>)}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Update 10-26-26: Our Personal Commitment -->
+    <section class="faith-commitment">
+      <p class="eyebrow"><T en="Our personal commitment" fr="Notre engagement" /></p>
+      <h2><T en="What we desire to be" fr="Ce que nous désirons être" /></h2>
+      {commitment.body.map((p) => <p>{p}</p>)}
+
+      <p class="faith-commitment-lead">We believe that:</p>
+      <ul class="faith-creed">
+        {commitment.weBelieve.map((line) => <li>{line}</li>)}
+      </ul>
+
+      <blockquote class="faith-verse">
+        <p>{commitment.verse}</p>
+        <cite>— {commitment.verseRef}</cite>
+      </blockquote>
+
+      <p class="faith-closing">{commitment.closing}</p>
+    </section>
+
+    <section class="content-card">
+      <h2><T en="When we meet" fr="Quand nous nous réunissons" /></h2>
+      <ul class="simple-list">
+        {
+          services.map((s) => (
+            <li>
+              <Icon name={s.icon} size={20} />
+              <strong><T en={s.en} fr={s.fr} /></strong>
+              <span><T en={s.timeEn} fr={s.timeFr} /></span>
+            </li>
+          ))
+        }
+      </ul>
+      <a href="/home#visit" class="btn btn-primary"><T en="Plan your visit" fr="Préparer votre visite" /></a>
+    </section>
+  </div>
+</BaseLayout>

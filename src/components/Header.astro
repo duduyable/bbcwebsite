@@ -1,20 +1,50 @@
+---
+import T from "./T.astro";
+
+// Update 10-26-26: About, Announcements and Contact pages added to the menu,
+// and the current page is highlighted.
+const links = [
+  { href: "/", en: "Road to Salvation", fr: "Chemin du salut" },
+  { href: "/home", en: "Home", fr: "Accueil" },
+  { href: "/about", en: "About Us", fr: "Qui sommes-nous" },
+  { href: "/announcements", en: "Announcements", fr: "Annonces" },
+  { href: "/contact", en: "Contact", fr: "Contact" },
+];
+
+const current = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
 <header class="header">
   <div class="container">
-    <div class="logo">
+    <a href="/home" class="logo">
       <img src="/images/bluelogotransparent.png" alt="Church Logo" />
+      <!--<img src="/FrLogo.jpg" alt="Church Logo" />-->
       <span>Bible Baptist Church - Paris Mission</span>
-    </div>
+    </a>
 
     <nav class="nav" id="nav">
-      <a href="/">Road to Salvation</a>
-      <a href="/home">Home</a>
-      <!-- comment <a href="/announcements">Announcements</a>
-      <a href="/about">About Us</a>
-      <a href="/contact">Contact</a>
-      -->
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class={current === link.href ? "current" : undefined}
+            aria-current={current === link.href ? "page" : undefined}
+          >
+            <T en={link.en} fr={link.fr} />
+          </a>
+        ))
+      }
     </nav>
 
-    <div class="hamburger" id="hamburger">☰</div>
+    <div class="header-actions">
+      <!-- Update 10-26-26: English / French switch -->
+      <button class="lang-toggle" id="lang-toggle" type="button" aria-label="Switch language / Changer de langue">
+        <span class="t-en">FR</span><span class="t-fr">EN</span>
+      </button>
+
+      <!-- Update 10-26-26: hamburger is now a real button (works with keyboard and screen readers) -->
+      <button class="hamburger" id="hamburger" type="button" aria-label="Menu" aria-controls="nav" aria-expanded="false">☰</button>
+    </div>
   </div>
 </header>
 
@@ -24,7 +54,23 @@
 
   if (hamburger && nav) {
     hamburger.addEventListener("click", () => {
-      nav.classList.toggle("active");
+      const open = nav.classList.toggle("active");
+      hamburger.setAttribute("aria-expanded", String(open));
+    });
+  }
+
+  // Update 10-26-26: language toggle, remembered for the next visit
+  const langToggle = document.getElementById("lang-toggle");
+
+  if (langToggle) {
+    langToggle.addEventListener("click", () => {
+      const root = document.documentElement;
+      const next = root.dataset.lang === "fr" ? "en" : "fr";
+      root.dataset.lang = next;
+      root.lang = next;
+      try {
+        localStorage.setItem("lang", next);
+      } catch (e) {}
     });
   }
 </script>

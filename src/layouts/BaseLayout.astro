@@ -1,5 +1,20 @@
 ---
 import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+// Update 10-26-26: each page can now set its own title and description
+// (shown in browser tabs, Google results and Facebook/WhatsApp link previews).
+const {
+  title = "Bible Baptist Church - Paris Mission",
+  description = "Bible Baptist Church - Paris Mission. Discover God's gift of salvation and join us for worship at 13 Rue des Fontaines du Temple, 75003 Paris.",
+} = Astro.props;
+
+const pageTitle = title.includes("Bible Baptist")
+  ? title
+  : `${title} | Bible Baptist Church - Paris`;
+
+// Update 10-26-26: set `site` in astro.config.mjs to the real web address so link previews use full image URLs
+const ogImage = new URL("/images/bluelogotransparent.png", Astro.site ?? Astro.url).href;
 ---
 
 <!doctype html>
@@ -7,9 +22,27 @@ import Header from "../components/Header.astro";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bible Baptist Church - Paris Mission</title>
+    <title>{pageTitle}</title>
+    <!-- Update 10-26-26: search engine and social sharing info -->
+    <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Bible Baptist Church - Paris" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="theme-color" content="#051452" />
     <link rel="icon" type="image/jpg" href="/FrLogo.jpg" />
     <link rel="stylesheet" href="/css/style.css" />
+
+    <!-- Update 10-26-26: apply the saved language (EN/FR) before the page shows, so it doesn't flicker -->
+    <script is:inline>
+      try {
+        if (localStorage.getItem("lang") === "fr") {
+          document.documentElement.dataset.lang = "fr";
+          document.documentElement.lang = "fr";
+        }
+      } catch (e) {}
+    </script>
   </head>
 
   <body>
@@ -17,5 +50,7 @@ import Header from "../components/Header.astro";
     <main>
       <slot />
     </main>
+    <!-- Update 10-26-26: footer added to every page -->
+    <Footer />
   </body>
 </html>

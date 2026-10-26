@@ -1,47 +1,32 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import LessonLayout from "../layouts/LessonLayout.astro";
 ---
 
-<BaseLayout>
-  <section class="readmore-section">
-    <div class="readmore-header">
-      <h1>Prayer</h1>
+<!-- Update 10-26-26: page now uses the shared LessonLayout (navigation buttons are built there) -->
+<LessonLayout
+  step={5}
+  heading="Prayer"
+  description="A simple prayer to receive Jesus Christ as your Savior and Lord."
+  textClass="prayer-text"
+>
+  <p>Dear Jesus,</p>
+  <p>I know that I'm a sinner.</p>
+  <p>I believe that You died for my sin and rose again.</p>
+  <p>I confess that I'm a sinner and accept</p>
+  <p>You as my Savior and Lord.</p>
+  <p>Come into my heart and save me.</p>
+  <p>Amen.</p>
+
+  <!-- Update 10-26-26: next steps after praying, pointing visitors to the church -->
+  <div slot="after" class="prayer-next">
+    <h2>Did you pray this prayer?</h2>
+    <p>
+      We would love to hear from you, answer your questions and help you grow
+      in your new life with Jesus Christ.
+    </p>
+    <div class="prayer-next-actions">
+      <a href="/contact" class="btn btn-primary">Contact us</a>
+      <a href="/home#visit" class="btn btn-outline">Plan your visit</a>
     </div>
-
-    <div class="readmore-body">
-      <div class="text-container prayer-text">
-        <p>Dear Jesus,</p>
-        <p>I know that I'm a sinner.</p>
-        <p>I believe that You died for my sin and rose again.</p>
-        <p>I confess that I'm a sinner and accept</p>
-        <p>You as my Savior and Lord.</p>
-        <p>Come into my heart and save me.</p>
-        <p>Amen.</p>
-      </div>
-    </div>
-
-    <style>
-      .prayer-text {
-        text-align: center;
-      }
-    </style>
-
-    <div class="page-controls">
-      <a href="/contentD" class="nav-btn"> ← Previous </a>
-
-      <span class="nav-btn disabled"> Next → </span>
-    </div>
-
-    <div class="page-nav">
-      <a href="/contentA" class="page-btn">1</a>
-
-      <a href="/contentB" class="page-btn">2</a>
-
-      <a href="/contentC" class="page-btn">3</a>
-
-      <a href="/contentD" class="page-btn">4</a>
-
-      <a href="/contentPrayer" class="page-btn active">5</a>
-    </div>
-  </section>
-</BaseLayout>
+  </div>
+</LessonLayout>

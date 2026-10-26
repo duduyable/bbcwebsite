@@ -1,0 +1,61 @@
+---
+// Update 10-26-26: New Announcements page. Announcements are added in src/data/announcements.ts.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import T from "../components/T.astro";
+import Icon from "../components/Icon.astro";
+import { church } from "../data/church";
+import { announcements } from "../data/announcements";
+
+const sorted = [...announcements].sort((a, b) => b.date.localeCompare(a.date));
+
+const formatDate = (date, locale) =>
+  new Date(`${date}T12:00:00`).toLocaleDateString(locale, {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+---
+
+<BaseLayout
+  title="Announcements"
+  description="News and upcoming events at Bible Baptist Church - Paris Mission."
+>
+  <section class="page-hero">
+    <p class="eyebrow"><T en="News" fr="Nouvelles" /></p>
+    <h1><T en="Announcements" fr="Annonces" /></h1>
+    <p><T en="What’s happening at our church." fr="Ce qui se passe dans notre église." /></p>
+  </section>
+
+  <div class="page-body">
+    {
+      sorted.length > 0 ? (
+        <div class="announcement-list">
+          {sorted.map((a) => (
+            <article class="announcement-card">
+              <p class="announcement-date">
+                <Icon name="calendar" size={16} />
+                <T en={formatDate(a.date, "en-GB")} fr={formatDate(a.date, "fr-FR")} />
+              </p>
+              <h2><T en={a.titleEn} fr={a.titleFr} /></h2>
+              <p><T en={a.bodyEn} fr={a.bodyFr} /></p>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <section class="content-card empty-state">
+          <span class="connect-icon"><Icon name="calendar" size={28} /></span>
+          <h2><T en="No announcements right now" fr="Aucune annonce pour le moment" /></h2>
+          <p>
+            <T
+              en="Follow us on Facebook for the latest news, or join us this Sunday."
+              fr="Suivez-nous sur Facebook pour les dernières nouvelles, ou rejoignez-nous ce dimanche."
+            />
+          </p>
+          <a href={church.facebookUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            <Icon name="facebook" size={18} /> <T en="Follow on Facebook" fr="Suivre sur Facebook" />
+          </a>
+        </section>
+      )
+    }
+  </div>
+</BaseLayout>

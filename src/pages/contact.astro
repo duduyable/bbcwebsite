@@ -1,0 +1,88 @@
+---
+// Update 10-26-26: New Contact page with address, map, service times and links.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import T from "../components/T.astro";
+import Icon from "../components/Icon.astro";
+import { church, services } from "../data/church";
+---
+
+<BaseLayout
+  title="Contact"
+  description="Contact Bible Baptist Church - Paris Mission. 13 Rue des Fontaines du Temple, 75003 Paris."
+>
+  <section class="page-hero">
+    <p class="eyebrow"><T en="Get in touch" fr="Nous joindre" /></p>
+    <h1><T en="Contact us" fr="Nous contacter" /></h1>
+    <p>
+      <T
+        en="Questions, prayer requests or planning a visit? We would be glad to hear from you."
+        fr="Des questions, une demande de prière ou une visite à prévoir ? Nous serons heureux de vous entendre."
+      />
+    </p>
+  </section>
+
+  <div class="page-body contact-grid">
+    <div class="contact-cards">
+      <div class="content-card contact-card">
+        <span class="connect-icon"><Icon name="pin" size={24} /></span>
+        <div>
+          <h2><T en="Address" fr="Adresse" /></h2>
+          <p>{church.name}<br />{church.street}<br />{church.city}, {church.country}</p>
+          <a href={church.mapUrl} target="_blank" rel="noopener noreferrer" class="text-link">
+            <T en="Get directions" fr="Itinéraire" /> <Icon name="arrow" size={16} />
+          </a>
+        </div>
+      </div>
+
+      <div class="content-card contact-card">
+        <span class="connect-icon"><Icon name="clock" size={24} /></span>
+        <div>
+          <h2><T en="Service times" fr="Horaires des cultes" /></h2>
+          {
+            services.map((s) => (
+              <p>
+                <strong><T en={s.en} fr={s.fr} /></strong>
+                <br />
+                <T en={s.timeEn} fr={s.timeFr} />
+              </p>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="content-card contact-card">
+        <span class="connect-icon"><Icon name="facebook" size={24} /></span>
+        <div>
+          <h2><T en="Message us" fr="Écrivez-nous" /></h2>
+          <p>
+            <T
+              en="Send us a message on Facebook and we will get back to you."
+              fr="Envoyez-nous un message sur Facebook et nous vous répondrons."
+            />
+          </p>
+          <a href={church.facebookUrl} target="_blank" rel="noopener noreferrer" class="text-link">
+            Facebook <Icon name="arrow" size={16} />
+          </a>
+          {
+            church.email && (
+              <p>
+                <a href={`mailto:${church.email}`} class="text-link">
+                  <Icon name="mail" size={16} /> {church.email}
+                </a>
+              </p>
+            )
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="visit-map contact-map">
+      <iframe
+        src={church.mapEmbedUrl}
+        title="Map: Bible Baptist Church - Paris"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen></iframe>
+    </div>
+  </div>
+</BaseLayout>

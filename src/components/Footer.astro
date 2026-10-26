@@ -1,0 +1,70 @@
+---
+// Update 10-26-26: New footer shown on every page with address, service times and links.
+import T from "./T.astro";
+import Icon from "./Icon.astro";
+import { church, services } from "../data/church";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-col footer-brand">
+      <img src="/images/whitelogotransparent.png" alt="" class="footer-logo" />
+      <p class="footer-name">{church.fullName}</p>
+      <p class="footer-verse">
+        <T
+          en="“For by grace are ye saved through faith.” — Ephesians 2:8"
+          fr="« C’est par la grâce que vous êtes sauvés, par le moyen de la foi. » — Éphésiens 2:8"
+        />
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <h3><T en="Services" fr="Cultes" /></h3>
+      <ul>
+        {
+          services.map((s) => (
+            <li>
+              <strong><T en={s.en} fr={s.fr} /></strong>
+              <br />
+              <T en={s.timeEn} fr={s.timeFr} />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3><T en="Visit us" fr="Nous rendre visite" /></h3>
+      <p>
+        {church.street}<br />
+        {church.city}
+      </p>
+      <a href={church.mapUrl} target="_blank" rel="noopener noreferrer" class="footer-link">
+        <Icon name="pin" size={16} /> <T en="Get directions" fr="Itinéraire" />
+      </a>
+    </div>
+
+    <div class="footer-col">
+      <h3><T en="Connect" fr="Restons en contact" /></h3>
+      <div class="footer-social">
+        <a href={church.facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <Icon name="facebook" size={18} />
+        </a>
+        {
+          church.email && (
+            <a href={`mailto:${church.email}`} aria-label="Email">
+              <Icon name="mail" size={18} />
+            </a>
+          )
+        }
+      </div>
+      <a href="/contact" class="footer-link"><T en="Contact us" fr="Nous contacter" /></a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    © {year} {church.name}
+  </div>
+</footer>
